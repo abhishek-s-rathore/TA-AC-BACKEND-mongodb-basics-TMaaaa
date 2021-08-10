@@ -33,13 +33,13 @@ Write code to:
 
 //--------------------------------------------------------//
 
-> show db --> It shows all the datbase list
+> show dbs --> It shows all the datbase list
 > admin 0.000GB
 > local 0.000GB
 
-> use country --> To create databas collection
+> use country --> To create database collection
 
-> show db --> It shows all the datbase list
+> show dbs --> It shows all the datbase list
 > admin 0.000GB  
 >  local 0.000GB (Here country will shown only when document is added to it.)
 
