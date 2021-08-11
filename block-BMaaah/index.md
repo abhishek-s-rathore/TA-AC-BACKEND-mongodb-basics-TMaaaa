@@ -26,10 +26,10 @@ let articlesArr = [
   {
     title: 'HTML',
     details: 'All_about_HTML',
-    createdAt: Date.now(),
+    createdAt: new Date(),
     author: {
       name: 'Aditya Singh',
-      email: 'aditya@gmail.com',
+      email: 'aditya@gmail.com',  
       age: '24',
     },
     tags: ['HTML', 'Web_Development'],
@@ -37,7 +37,7 @@ let articlesArr = [
   {
     title: 'JavaScript',
     details: 'All_about_JavaScript',
-    createdAt: Date.now(),
+    createdAt: new Date(),
     author: {
       name: 'Abhishek Rathore',
       email: 'abhishek.990914@gmail.com',
@@ -48,7 +48,7 @@ let articlesArr = [
   {
     title: 'React.js',
     details: 'All_about_React.js',
-    createdAt: Date.now(),
+    createdAt: new Date(),
     author: {
       name: 'Deepak Singh',
       email: 'deepak@gmail.com',
@@ -58,46 +58,48 @@ let articlesArr = [
   },
 ];
 ```
-> db.articles.insertMany(articlesArr) db.articles.find({title: "JavaScript"})
-
+> db.articles.insertMany(articlesArr)
 
 4. Find all the articles using `db.COLLECTION_NAME.find()`
 > db.articles.find().pretty()
 
-5. Find a document using \_id field.
-> db.articles.find({_id: ObjectId("6113c90790a92603a9f2601d")})
+5. Find a document using _id field.
+> db.articles.findOne({"_id": ObjectId("6113c90790a92603a9f2601d")})
 
-6. 1. Find documents using title
->  db.articles.find({title: "JavaScript"})
+6. Find documents using title
+>  db.articles.findOne({title: "JavaScript"})
 
-7. 2. Find documents using author's name field.
->  
+7. Find documents using author's name field.
+>  db.articles.findOne({"author.name": "Abhishek Rathore"})
 
 8. Find document using a specific tag.
 > db.articles.find({tags: "JavaScript"})
 
-9. Update title of a document using its \_id field.
-> db.articles.update({_id: ObjectId("6113c90790a92603a9f2601c")},{title: "Advanced  JavaSCript"})
+9. Update title of a document using its _id field.
+> db.articles.update({"_id": ObjectId("6113c90790a92603a9f2601c")},{$set: {title: "Advanced  JavaSCript"}})
 
 10. Update a author's name using article's title.
->
+> db.articles.update({title: "JavaScript"},{$set:{"author.name": "Abhishek Singh Rathore"}})
+
 
 11. rename details field to description from all articles in articles collection.
-> db.articles.updateMany({}, {$rename: {"description": "Description"}})
+> db.articles.updateMany({}, {$rename: {"details": "description"}})   // we can also use {multi: true}
 
 12. Add additional tag in a specific document.
-> 
+> db.articles.update({title:"JavaScript"}, {$push:{tags: "mongo"}})
 
 13. Update an article's title using $set and without $set.
-
 - Write the differences here ?
+Ans: Using $set will update the value while without using $set, only new value will remain there and other will deleted.
 
-13. find an article using title and increment it's auhtor's age by 5.
+14. find an article using title and increment it's auhtor's age by 5.
+> db.articles.update({title: "React.js"}, {$inc: {"author.age": 5}})
 
-14. Delete a document using \_id field with `db.COLLECTION_NAME.remove()`.
+15. Delete a document using _id field with `db.COLLECTION_NAME.remove()`.
+> db.articles.remove({title: "HTML"})
+
 
 // Sample data
-
 ```js
 db.users.insertMany([
   {
@@ -210,9 +212,17 @@ db.users.insertMany([
 ]);
 ```
 
-Insert above data into database to perform below queries:-
+- Insert above data into database to perform below queries:
+//Done
 
 - Find all males who play cricket.
+> db.users.find({gender: "Male"},{sports: 'cricket'}).pretty()
+
 - Update user with extra golf field in sports array whose name is "Steve Ortega".
+>db.users.update({name: "Steve Ortega"},{$push: {sports: "golf"}})
+
 - Find all users who play either 'football' or 'cricket'.
+> db.users.find({sports: {$in: ['football', 'cricket']}})
+
 - Find all users whose name includes 'ri' in their name.
+> db.users.find({name: /ri/i)
